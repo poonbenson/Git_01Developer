@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_20240301a'
+winTitlePrefix = 'BigKeeper_20240301b'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -2657,6 +2657,8 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
 
                         toBeDelList, toBeKeepList = self.cleanUpSortOutDelVers(sourceCheckPath, keepVers, keepDays)
 
+                        self.TraceRenderOutputFromKeepVersPath(toBeKeepList)
+
                         print('toBeDelList is :')
                         for i in toBeDelList:
                             print(i)
@@ -2882,7 +2884,19 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
 
 
         msgBox.close()
+
         return delVersPath, keepVersPath
+
+
+    def TraceRenderOutputFromKeepVersPath(self, inKeepList):
+        print('start of TraceRenderOutputFromKeepVersPath')
+        for i in inKeepList:
+            #Extract shot name full path
+            #Extract task name
+            #Extract ver number
+            print(i)
+
+        print('end of TraceRenderOutputFromKeepVersPath\n')
 
 
     def isEarlierThanKeepDays(self, inPath, inKeepDays):
