@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_20240228a'
+winTitlePrefix = 'BigKeeper_20240301a'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -411,6 +411,13 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
         #Cmd Tab
         self.pushButton_sortoutfile.clicked.connect(lambda: self.cleanUpCompOutput(self.listWidget_1.selectedItems()))
         self.pushButton_exeDel.clicked.connect(lambda: self.cleanUpDelAction())
+        # Define a list containing the full paths of Nuke script files
+        script_files = [
+            r"N:\mnt\job\24901BigPicture_TestProj\WorkingFile\BigPicture24_TestProj\scenes\bensonSeq\bkpy0010\components\comp\wip\bkpy0010_comp_wip_v0017.nk",
+            r"N:\mnt\job\24901BigPicture_TestProj\WorkingFile\BigPicture24_TestProj\scenes\bensonSeq\bkpy0010\components\comp\wip\bkpy0010_comp_wip_v0009.nk",
+            # Add more script file paths as needed
+        ]
+        self.pushButton_sortoutfile_1a.clicked.connect(lambda: self.extractReadNodePath(script_files))
 
 
         self.listBigKeeperProject()
@@ -3002,6 +3009,55 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
                 print(fileName)
                 return fileName
 
+
+
+
+    def extractReadNodePath(self, InPathList):
+        def extract_file_paths(script_file):
+            file_paths = []
+            with open(script_file, "r") as script_file_handle:
+                lines = script_file_handle.readlines()
+                for i in range(len(lines)):
+                    line = lines[i].strip()
+                    if line.startswith("Read {") and line.endswith("Read {"):
+                        if i + 3 < len(lines):
+                            file_path = lines[i + 3].split("file ")[-1].strip("\n").strip("}")
+                            file_paths.append(file_path)
+            return file_paths
+
+        def write_file_paths(file_paths, output_file):
+            mode = 'w' if not os.path.exists(output_file) else 'a'
+            with open(output_file, mode) as output_file_handle:
+                for file_path in file_paths:
+                    output_file_handle.write(file_path + "\n")
+
+
+
+        # Path to the folder to store the text file
+        output_folder = r"C:\Users\bigpicture\Desktop\file_path"
+        output_file = os.path.join(output_folder, "read_node_file_paths.txt")
+
+        # Check if the target file exists at the beginning
+        if os.path.exists(output_file):
+            user_decision = input(f"The file '{output_file}' already exists. Do you want to overwrite it? (yes/no): ").lower()
+            if user_decision == 'yes':
+                os.remove(output_file)  # Delete the existing file
+
+        # Extract file paths from each script file
+        all_file_paths = []
+        for script_file in InPathList:
+            print(f'==={script_file}===')
+            print("Processing script:", script_file)
+            file_paths = extract_file_paths(script_file)
+            all_file_paths.extend(file_paths)
+            print("Script processed.")
+
+        # Write to the file in write mode
+        write_file_paths(all_file_paths, output_file)
+
+        print("All scripts processed. File paths saved to:", output_file)
+
+        os.startfile(output_folder)
 
 
 
