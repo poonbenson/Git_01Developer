@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_20240301b'
+winTitlePrefix = 'BigKeeper_20240301c'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -9,7 +9,7 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 
 # To import standard modules
-import subprocess, os, sys, time, webbrowser
+import subprocess, os, sys, time, webbrowser, pathlib
 
 
 if sys.version_info.major >= 3:
@@ -2892,9 +2892,13 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
         print('start of TraceRenderOutputFromKeepVersPath')
         for i in inKeepList:
             #Extract shot name full path
-            #Extract task name
-            #Extract ver number
-            print(i)
+            theLibPath = pathlib.Path(i)
+
+            pathComponent = theLibPath.parents[2]
+            taskName = os.path.basename(theLibPath.parents[1])
+
+            print('pathComponent :{}'.format(pathComponent))
+            print('taskName :{}'.format(taskName))
 
         print('end of TraceRenderOutputFromKeepVersPath\n')
 
