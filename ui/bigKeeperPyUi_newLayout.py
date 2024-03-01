@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'bigKeeperPyUi_newLayout_v132.ui'
+## Form generated from reading UI file 'bigKeeperPyUi_newLayout_v134.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -236,20 +236,26 @@ class Ui_MainWindow(object):
         self.tabCmd.setObjectName(u"tabCmd")
         self.pushButton_sortoutfile = QPushButton(self.tabCmd)
         self.pushButton_sortoutfile.setObjectName(u"pushButton_sortoutfile")
-        self.pushButton_sortoutfile.setGeometry(QRect(200, 30, 75, 23))
+        self.pushButton_sortoutfile.setGeometry(QRect(260, 30, 75, 23))
         self.label_17 = QLabel(self.tabCmd)
         self.label_17.setObjectName(u"label_17")
         self.label_17.setGeometry(QRect(0, 10, 151, 16))
         self.label_17.setTextFormat(Qt.PlainText)
         self.pushButton_exeDel = QPushButton(self.tabCmd)
         self.pushButton_exeDel.setObjectName(u"pushButton_exeDel")
-        self.pushButton_exeDel.setGeometry(QRect(370, 30, 31, 23))
+        self.pushButton_exeDel.setGeometry(QRect(70, 180, 31, 23))
         self.label_18 = QLabel(self.tabCmd)
         self.label_18.setObjectName(u"label_18")
         self.label_18.setGeometry(QRect(0, 30, 211, 16))
         self.label_19 = QLabel(self.tabCmd)
         self.label_19.setObjectName(u"label_19")
-        self.label_19.setGeometry(QRect(300, 30, 71, 16))
+        self.label_19.setGeometry(QRect(0, 180, 71, 16))
+        self.pushButton_sortoutfile_1a = QPushButton(self.tabCmd)
+        self.pushButton_sortoutfile_1a.setObjectName(u"pushButton_sortoutfile_1a")
+        self.pushButton_sortoutfile_1a.setGeometry(QRect(260, 60, 121, 23))
+        self.label_23 = QLabel(self.tabCmd)
+        self.label_23.setObjectName(u"label_23")
+        self.label_23.setGeometry(QRect(10, 60, 231, 16))
         self.tabWidget_2.addTab(self.tabCmd, "")
         self.tabLauncher = QWidget()
         self.tabLauncher.setObjectName(u"tabLauncher")
@@ -455,7 +461,39 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5.addLayout(self.horizontalLayout_3)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.label_thumbSeq = QLabel(self.tab_shotBrowser)
+        self.label_thumbSeq.setObjectName(u"label_thumbSeq")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.label_thumbSeq.sizePolicy().hasHeightForWidth())
+        self.label_thumbSeq.setSizePolicy(sizePolicy4)
+        self.label_thumbSeq.setMinimumSize(QSize(123, 98))
+
+        self.horizontalLayout_11.addWidget(self.label_thumbSeq)
+
+        self.label_thumbShot = QLabel(self.tab_shotBrowser)
+        self.label_thumbShot.setObjectName(u"label_thumbShot")
+        sizePolicy4.setHeightForWidth(self.label_thumbShot.sizePolicy().hasHeightForWidth())
+        self.label_thumbShot.setSizePolicy(sizePolicy4)
+        self.label_thumbShot.setMinimumSize(QSize(123, 98))
+
+        self.horizontalLayout_11.addWidget(self.label_thumbShot)
+
+        self.label_thumbTask = QLabel(self.tab_shotBrowser)
+        self.label_thumbTask.setObjectName(u"label_thumbTask")
+        sizePolicy4.setHeightForWidth(self.label_thumbTask.sizePolicy().hasHeightForWidth())
+        self.label_thumbTask.setSizePolicy(sizePolicy4)
+        self.label_thumbTask.setMinimumSize(QSize(123, 98))
+
+        self.horizontalLayout_11.addWidget(self.label_thumbTask)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_11)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Preferred)
 
         self.verticalLayout_5.addItem(self.verticalSpacer_2)
 
@@ -779,7 +817,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.tabWidget.setCurrentIndex(0)
-        self.tabWidget_2.setCurrentIndex(5)
+        self.tabWidget_2.setCurrentIndex(4)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -865,6 +903,11 @@ class Ui_MainWindow(object):
         self.pushButton_exeDel.setText(QCoreApplication.translate("MainWindow", u"Del", None))
         self.label_18.setText(QCoreApplication.translate("MainWindow", u"1) Sort Out by Keeping Versions & Days :", None))
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"2) Execut Del", None))
+#if QT_CONFIG(tooltip)
+        self.pushButton_sortoutfile_1a.setToolTip(QCoreApplication.translate("MainWindow", u"pushButton_sortoutfile", None))
+#endif // QT_CONFIG(tooltip)
+        self.pushButton_sortoutfile_1a.setText(QCoreApplication.translate("MainWindow", u"Import Text File(s)", None))
+        self.label_23.setText(QCoreApplication.translate("MainWindow", u"A) Extract ReadNode file path to Del / Keep :", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tabCmd), QCoreApplication.translate("MainWindow", u"Cmd", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Studio Dedicated Launcher:", None))
 #if QT_CONFIG(tooltip)
@@ -982,6 +1025,18 @@ class Ui_MainWindow(object):
         self.pushButton_newTask.setToolTip(QCoreApplication.translate("MainWindow", u"pushButton_newTask", None))
 #endif // QT_CONFIG(tooltip)
         self.pushButton_newTask.setText(QCoreApplication.translate("MainWindow", u"New Task", None))
+#if QT_CONFIG(tooltip)
+        self.label_thumbSeq.setToolTip(QCoreApplication.translate("MainWindow", u"label_thumbSeq", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_thumbSeq.setText(QCoreApplication.translate("MainWindow", u"label_thumbSeq", None))
+#if QT_CONFIG(tooltip)
+        self.label_thumbShot.setToolTip(QCoreApplication.translate("MainWindow", u"label_thumbShot", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_thumbShot.setText(QCoreApplication.translate("MainWindow", u"label_thumb", None))
+#if QT_CONFIG(tooltip)
+        self.label_thumbTask.setToolTip(QCoreApplication.translate("MainWindow", u"label_thumbTask", None))
+#endif // QT_CONFIG(tooltip)
+        self.label_thumbTask.setText(QCoreApplication.translate("MainWindow", u"label_thumbTask", None))
 #if QT_CONFIG(tooltip)
         self.lineEdit_Location.setToolTip(QCoreApplication.translate("MainWindow", u"lineEdit_Location", None))
 #endif // QT_CONFIG(tooltip)
