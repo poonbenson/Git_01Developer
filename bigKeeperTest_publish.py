@@ -2890,15 +2890,46 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
 
     def TraceRenderOutputFromKeepVersPath(self, inKeepList):
         print('start of TraceRenderOutputFromKeepVersPath')
+
+        #Extract Nuke working file
+        nukeNumPadDigit = 4 + 1     #("v" + 4digit)
+        def extract_wipNumber(inText):
+            num_str = ''
+            counter = 0
+            for char in inText:
+                counter += 1
+                if char.isdigit() and counter <= 5:
+                    num_str += char
+            if num_str:
+                return int(num_str), 'v' + num_str
+            else:
+                return None
+
         for i in inKeepList:
             #Extract shot name full path
             theLibPath = pathlib.Path(i)
 
             pathComponent = theLibPath.parents[2]
+
             taskName = os.path.basename(theLibPath.parents[1])
+            workFileName = pathlib.Path(theLibPath).stem
+            shotName = os.path.basename(pathlib.Path(theLibPath.parents[3]))
+            justVer, vWithVer = extract_wipNumber(workFileName)
+
 
             print('pathComponent :{}'.format(pathComponent))
             print('taskName :{}'.format(taskName))
+            print('shotName :{}'.format(shotName))
+            print('baseName :{}'.format(workFileName))
+            print('justVer :{}'.format(justVer))
+
+
+            # combine to a nuke script file path
+            nukeScriptWIPfileName = shotName + '_' + taskName + '_wip_' + vWithVer + '.nk'
+            nukeScriptFilePath = os.path.join(pathComponent, taskName, 'wip', nukeScriptWIPfileName)
+            print('nukeScriptFilePath :{}'.format(nukeScriptFilePath))
+
+
 
         print('end of TraceRenderOutputFromKeepVersPath\n')
 
