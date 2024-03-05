@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_20240301c'
+winTitlePrefix = 'BigKeeper_20240305a'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -2877,7 +2877,7 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
                         #print('Earlier.\n')
                         delVersPath.append(os.path.normpath(os.path.join(theCompOutputPath, k)))
                     else:
-                        keepVersPath.append(os.path.normpath(os.path.join(theCompOutputPath, l)))
+                        keepVersPath.append(os.path.normpath(os.path.join(theCompOutputPath, l)))  #<------ Check it line 2880, why "l" variable not "k"?
 
             QApplication.processEvents()
             msgBox.setText(theCompOutputPath)
@@ -2889,11 +2889,16 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
 
 
     def TraceRenderOutputFromKeepVersPath(self, inKeepList):
-        print('start of TraceRenderOutputFromKeepVersPath')
+        print('\n\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><\n\n')
+        print('my TraceRenderOutputFromKeepVersPath\n\n')
 
         #Extract Nuke working file
         nukeNumPadDigit = 4 + 1     #("v" + 4digit)
+        toBeKeepRenderOutputList = []
+        toBeDelRenderOutputList = []
+
         def extract_wipNumber(inText):
+            print('my extract_wipNumber')
             num_str = ''
             counter = 0
             for char in inText:
@@ -2905,10 +2910,130 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
             else:
                 return None
 
+
+        def extractReadNodeKeepRenderImagePath(InPath):
+
+            print('my extractReadNodeKeepRenderImagePath')
+
+            # The original of this def is designed to input from a list of path, so now keep it as individual def.
+            def extract_file_paths(script_file):
+                file_paths = []
+                with open(script_file, "r") as script_file_handle:
+                    lines = script_file_handle.readlines()
+                    for i in range(len(lines)):
+                        line = lines[i].strip()
+                        if line.startswith("Read {") and line.endswith("Read {"):
+                            if i + 3 < len(lines):
+                                file_path = lines[i + 3].split("file ")[-1].strip("\n").strip("}")
+                                file_paths.append(file_path)
+                return file_paths
+
+            # List variable to store file paths
+            all_file_paths = []
+
+            # Extract file paths from script file
+            print(f'==={InPath}===')
+            print("Processing script:", InPath)
+            file_paths = extract_file_paths(InPath)
+            all_file_paths.extend(file_paths)
+            print("Script processed.")
+
+            '''
+            #Print the list of file paths
+            print("All file paths extracted:")
+            for i in all_file_paths:
+                print(i)
+            '''
+
+            return all_file_paths
+
+
+        def toBeDelRenderImagePath(inKeepPathList, inKeepPathComponent):
+            print('my toBeDelRenderImagePath')
+
+            keepVersionPathList = []
+            outKeepList = []
+            outDelList = []
+
+            # tidy up keep VERSION path list, find out all the VERSION paths
+            for i in inKeepPathList:
+                theKeepLibPath = pathlib.Path(i)
+                if os.path.normpath(theKeepLibPath.parents[-13]) in keepVersionPathList:
+                    pass
+                else:
+                    keepVersionPathList.append(os.path.normpath(theKeepLibPath.parents[-13]))    #keepVersionPathList created here.
+
+                if str(os.path.normpath(i)).startswith(str(inKeepPathComponent)):   #To include only within the same shot. For saftly, Exclude out of the same shot on-purpose.
+                    #print('The RenderImage Path is same shot.')
+                    allVersionPath = findAllVerInRenderImagePath(theKeepLibPath)     #allVersionPathList created here.
+                    #print(allVersionPath)
+
+                else:
+                    #print('The RenderImage Path is out of the same shot, skipped.')
+                    pass
+
+            """
+            print("\nkeepVersionPathList:")
+            for i in keepVersionPathList:
+                print(i)
+
+            print("\nallVersionFolders:")
+            for i in allVersionPath:
+                print(i)
+            """
+
+
+            # Filter outDelList from the above 2 set of paths
+            for i in allVersionPath:
+                if os.path.normpath(i) in keepVersionPathList:
+                    outKeepList.append(i)
+                else:
+                    outDelList.append(i)
+
+            print('\noutDelList:')
+            for i in outDelList:
+                print(i)
+
+            return outDelList, outKeepList
+
+
+        def findAllVerInRenderImagePath(inPath):
+            print('my findAllVerInRenderImagePath')
+
+            theLibPath = pathlib.Path(inPath)
+            #print('theLibPath.parents[2] :')
+            #print(theLibPath.parents[2])
+
+            allVerInRenderImagePath = os.listdir(theLibPath.parents[2])
+            onlyVerFolderPath = []
+            #print('allVerInRenderImagePath :')
+            #print(allVerInRenderImagePath)
+
+            for i in allVerInRenderImagePath:
+                checkPath = os.path.join(os.path.normpath(theLibPath.parents[2]), i)
+                #print('checkPath : {}'.format(checkPath))
+                if os.path.isdir(checkPath):
+                    onlyVerFolderPath.append(checkPath)
+
+            #print('allVerInRenderImagePath :')
+            #print(allVerInRenderImagePath)
+            #print('onlyVerFolderPath :')
+            #print(onlyVerFolderPath)
+
+            return onlyVerFolderPath
+
+
+        print('\n\ninKeepList :::')
+        for i in inKeepList:
+            print(i)
+        print('\n\n\n')
+
+
         for i in inKeepList:
             #Extract shot name full path
-            theLibPath = pathlib.Path(i)
 
+            theLibPath = pathlib.Path(i)
+            print('theLibPath :{}'.format(theLibPath))
             pathComponent = theLibPath.parents[2]
 
             taskName = os.path.basename(theLibPath.parents[1])
@@ -2929,9 +3054,41 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
             nukeScriptFilePath = os.path.join(pathComponent, taskName, 'wip', nukeScriptWIPfileName)
             print('nukeScriptFilePath :{}'.format(nukeScriptFilePath))
 
+            storeDelList, storeKeepList = (toBeDelRenderImagePath(extractReadNodeKeepRenderImagePath(nukeScriptFilePath), pathComponent))
+
+            print(storeDelList)
+            print(storeKeepList)
+
+            for j in storeKeepList:
+                print('storeKeepList: {}'.format(j))
+                print(j)
+
+                if j not in toBeKeepRenderOutputList:
+                    toBeKeepRenderOutputList.append(j)
+
+            for j in storeDelList:
+                if j not in toBeKeepRenderOutputList and j not in toBeDelRenderOutputList:
+                    toBeDelRenderOutputList.append(j)
+
+            """
+            print('toBeKeepRenderOutputList :')
+            for i in toBeKeepRenderOutputList:
+                print(i)
+            print('toBeDelRenderOutputList :')
+            for i in toBeDelRenderOutputList:
+                print(i)
+            """
 
 
-        print('end of TraceRenderOutputFromKeepVersPath\n')
+
+        print('\nend of TraceRenderOutputFromKeepVersPath\n')
+        print('toBeKeepRenderOutputList :')
+        for i in toBeKeepRenderOutputList:
+            print(i)
+        print('toBeDelRenderOutputList :')
+        for i in toBeDelRenderOutputList:
+            print(i)
+        print('\n\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><\n\n')
 
 
     def isEarlierThanKeepDays(self, inPath, inKeepDays):
