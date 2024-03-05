@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_20240305b'
+winTitlePrefix = 'BigKeeper_20240305c'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -2615,12 +2615,12 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
         totalSortoutCompSizeGB = 0
 
         # ref : https://pythonspot.com/pyqt5-input-dialog/
-        keepVers, VersOkPressed = QInputDialog.getInt(self, 'Input :', 'How many Latest VERSIONS to be kept and protected?', 10, 1, 100, 1)
+        keepVers, VersOkPressed = QInputDialog.getInt(self, 'Input :', 'How many Latest VERSIONS to be kept and protected?', 10, 1, 10000, 1)
         if VersOkPressed:
             print('keepVers inputed : %d' %keepVers)
 
 
-            keepDays, DaysOkPressed = QInputDialog.getInt(self, 'Input :', 'How many Latest DAYS to be kept and protected?', 30, 0, 100, 1)
+            keepDays, DaysOkPressed = QInputDialog.getInt(self, 'Input :', 'How many Latest DAYS to be kept and protected?', 30, 0, 10000, 1)
             if DaysOkPressed:
                 print('keepDays inputed : %d' %keepDays)
 
@@ -2657,15 +2657,25 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
 
                         toBeDelList, toBeKeepList = self.cleanUpSortOutDelVers(sourceCheckPath, keepVers, keepDays)
 
-                        self.TraceRenderOutputFromKeepVersPath(toBeKeepList)
+                        toBeDelPlusRenderSourceList = self.TraceRenderOutputFromKeepVersPath(toBeKeepList)
 
-                        print('toBeDelList is :')
+
+                        print('\ntoBeDelList is :')
                         for i in toBeDelList:
                             print(i)
 
-                        print('toBeKeepList is :')
+                        print('\ntoBeKeepList is :')
                         for i in toBeKeepList:
                             print(i)
+
+                        isIncludeRenderSource = False
+                        if isIncludeRenderSource:
+                            toBeDelList.extend(toBeDelPlusRenderSourceList)
+
+                        print('\ntoBeDelList + toBeDelPlusRenderSourceList is :')
+                        for i in toBeDelList:
+                            print(i)
+
 
                         totalSize = 0
 
@@ -3089,6 +3099,8 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
         for i in toBeDelRenderOutputList:
             print(i)
         print('\n\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><\n\n')
+
+        return toBeDelRenderOutputList
 
 
     def isEarlierThanKeepDays(self, inPath, inKeepDays):
