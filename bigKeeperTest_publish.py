@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_20240305a'
+winTitlePrefix = 'BigKeeper_20240305b'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -2877,7 +2877,7 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
                         #print('Earlier.\n')
                         delVersPath.append(os.path.normpath(os.path.join(theCompOutputPath, k)))
                     else:
-                        keepVersPath.append(os.path.normpath(os.path.join(theCompOutputPath, l)))  #<------ Check it line 2880, why "l" variable not "k"?
+                        keepVersPath.append(os.path.normpath(os.path.join(theCompOutputPath, k)))  #<------ Check it line 2880, why "l" variable not "k"?
 
             QApplication.processEvents()
             msgBox.setText(theCompOutputPath)
