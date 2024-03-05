@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_20240305c'
+winTitlePrefix = 'BigKeeper_20240305d'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -2614,6 +2614,12 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
         import datetime
         totalSortoutCompSizeGB = 0
 
+
+        # Ask user to include upstream images or not
+        includeAskitems = ("Yes","No")
+        isIncludeRenderSource, includeOkPressed = QInputDialog.getItem(self, "Include Updream :","Include Upstream asset, such as Footage, CG Render Images, Deep Images?", includeAskitems, 0, False)
+
+
         # ref : https://pythonspot.com/pyqt5-input-dialog/
         keepVers, VersOkPressed = QInputDialog.getInt(self, 'Input :', 'How many Latest VERSIONS to be kept and protected?', 10, 1, 10000, 1)
         if VersOkPressed:
@@ -2668,8 +2674,7 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
                         for i in toBeKeepList:
                             print(i)
 
-                        isIncludeRenderSource = False
-                        if isIncludeRenderSource:
+                        if isIncludeRenderSource == 'Yes':
                             toBeDelList.extend(toBeDelPlusRenderSourceList)
 
                         print('\ntoBeDelList + toBeDelPlusRenderSourceList is :')
@@ -2723,7 +2728,7 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
 
                         totalSizeLogFilePath = os.path.join(saveDirPath, 'sizeLog.txt')
                         f = open(totalSizeLogFilePath, 'w')
-                        f.write(str(totalSortoutCompSizeGB))
+                        f.write(str(totalSortoutCompSizeGB) + ' GB')
                         f.close()
 
 
@@ -2734,6 +2739,8 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
         print(f'**  Total sortout size (GB): {totalSortoutCompSizeGB}')
         print(f'****************************************')
         print('\n\n')
+
+
 
 
 
@@ -3199,6 +3206,9 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
         f.close()
         #print('Text File written to <%s>' %os.path.join(inPath, filename))
         print('Text File written to <%s>' %inPath)
+
+        libPath = pathlib.Path(inPath)
+        os.startfile(libPath.parent)
 
     def askOpenFile(self):
         print('my askOpenFile')
