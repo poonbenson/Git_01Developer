@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_20240305e'
+winTitlePrefix = 'BigKeeper_20240305f'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -3108,6 +3108,21 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
         for i in toBeKeepRenderOutputList:
             print(i)
         print('toBeDelRenderOutputList :')
+
+
+        # To double confirm no path in Keep List that exist in Del List
+        toBeKeepRenderOutputList = list(set(toBeKeepRenderOutputList))
+        toBeKeepRenderOutputList.sort()
+
+        toBeDelRenderOutputList = list(set(toBeDelRenderOutputList))
+        toBeDelRenderOutputList.sort()
+
+        for i in toBeKeepRenderOutputList:
+            if i in toBeDelRenderOutputList:
+                toBeDelRenderOutputList.remove(i)
+
+
+
         for i in toBeDelRenderOutputList:
             print(i)
         print('\n\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><\n\n')
