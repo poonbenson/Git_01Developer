@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_20240305d'
+winTitlePrefix = 'BigKeeper_20240305e'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -2942,6 +2942,11 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
                         if line.startswith("Read {") and line.endswith("Read {"):
                             if i + 3 < len(lines):
                                 file_path = lines[i + 3].split("file ")[-1].strip("\n").strip("}")
+                                file_paths.append(file_path)
+
+                        elif line.startswith("DeepRead {") and line.endswith("DeepRead {"):
+                            if i + 2 < len(lines):
+                                file_path = lines[i + 2].split("file ")[-1].strip("\n").strip("}")
                                 file_paths.append(file_path)
                 return file_paths
 
