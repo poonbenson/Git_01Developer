@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_202403012a'
+winTitlePrefix = 'BigKeeper_202403012b'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -3104,8 +3104,14 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
             print(i)
         print('\n\n\n')
 
+        inKeepListReverseSort = inKeepList
+        inKeepListReverseSort.sort(reverse = True)
+        inKeepListReverseSortCounter = 0
+
 
         for i in inKeepList:
+            inKeepListReverseSortCounter += 1
+
             #Extract shot name full path
 
             theLibPath = pathlib.Path(i)
@@ -3135,7 +3141,8 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
 
 
 
-            if os.path.exists(nukeScriptFilePath):
+            if os.path.exists(nukeScriptFilePath) :
+                print('| | | | | .nk nuke Script exist. | | | | | :\n{}\n'.format(nukeScriptFilePath))
                 storeDelList, storeKeepList = (toBeDelRenderImagePath(extractReadNodeKeepRenderImagePath(nukeScriptFilePath), pathComponent, taskName))
 
                 print(storeDelList)
@@ -3160,8 +3167,12 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
                 for i in toBeDelRenderOutputList:
                     print(i)
                 """
-            else:
-                print('x x x x x {} not exist. x x x x x'.format(nukeScriptFilePath))
+            elif os.path.exists(nukeScriptFilePath) == False and inKeepListReverseSortCounter > 1:
+                print('x x x x x .nk nuke Script not found. x x x x x : (not largest keepVer comp output, countinue)\n{}\n'.format(nukeScriptFilePath))
+            elif os.path.exists(nukeScriptFilePath) == False and inKeepListReverseSortCounter == 1:
+                print('x x x x x .nk nuke Script not found. x x x x x : (LARGEST keepVer comp output, BREAK)\n{}\n'.format(nukeScriptFilePath))
+                break
+
 
 
         print('\nend of TraceRenderOutputFromKeepVersPath\n')
