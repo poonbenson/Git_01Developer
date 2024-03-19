@@ -1,4 +1,4 @@
-winTitlePrefix = 'BigKeeper_202403012b'
+winTitlePrefix = 'BigKeeper_202403012c'
 
 # path of bigKeeperTest_publish : N:\BigKeeper
 # WIP of bigKeeperTest_publish : I:\iCloud~com~omz-software~Pythonista3\pySide2UI\wip
@@ -3035,39 +3035,44 @@ class BigMainWindow(UiPy.Ui_MainWindow, QMainWindow):
 
 
 
+                ###
 
                 if  len(theKeepLibPath.parents) < 13:
                     print('No. of folders level less than pipeline structure, skipped.\n')
                     pass
                 else:
 
-                    if os.path.normpath(theKeepLibPath.parents[-11]) != os.path.normpath(theKeepTaskPath) :   #To exclude from same TASK. Becoz artist may readIn previous nuke render output to QC.
-                        print('theKeepTaskPath             :{}'.format(theKeepTaskPath))
-                        print('vs')
-                        print('theKeepLibPath.parents[-11] :{}'.format(theKeepLibPath.parents[-11]))
-                        print('The RenderImage Path is from Different Task, OK.\n')
-                        print('theKeepLibPath.parents[-13] :',theKeepLibPath.parents[-13])
+                    if os.path.exists(theKeepLibPath.parents[-13]):
 
-                        if str(os.path.normpath(i)).startswith(str(inKeepPathComponent)):   #To include only within the same shot. For saftly, Exclude out of the same shot on-purpose.
+                        if os.path.normpath(theKeepLibPath.parents[-11]) != os.path.normpath(theKeepTaskPath) :   #To exclude from same TASK. Becoz artist may readIn previous nuke render output to QC.
+                            print('theKeepTaskPath             :{}'.format(theKeepTaskPath))
+                            print('vs')
+                            print('theKeepLibPath.parents[-11] :{}'.format(theKeepLibPath.parents[-11]))
+                            print('The RenderImage Path is from Different Task, OK.\n')
+                            print('theKeepLibPath.parents[-13] :',theKeepLibPath.parents[-13])
 
-                            storePaths = findAllVerInRenderImagePath(theKeepLibPath)     #allVersionPathList store at here.
-                            for j in storePaths:
-                                allVersionPath.append(os.path.normpath(j))
+                            if str(os.path.normpath(i)).startswith(str(inKeepPathComponent)):   #To include only within the same shot. For saftly, Exclude out of the same shot on-purpose.
 
-                            if os.path.normpath(theKeepLibPath.parents[-13]) in keepVersionPathList:
-                                print('os.path.normpath(theKeepLibPath.parents[-13])  in keepVersionPathList, skipped.\n')
-                                pass
+                                storePaths = findAllVerInRenderImagePath(theKeepLibPath)     #allVersionPathList store at here.
+                                for j in storePaths:
+                                    allVersionPath.append(os.path.normpath(j))
+
+                                if os.path.normpath(theKeepLibPath.parents[-13]) in keepVersionPathList:
+                                    print('os.path.normpath(theKeepLibPath.parents[-13])  in keepVersionPathList, skipped.\n')
+                                    pass
+                                else:
+                                    keepVersionPathList.append(os.path.normpath(theKeepLibPath.parents[-13]))    #keepVersionPathList created here.
+
                             else:
-                                keepVersionPathList.append(os.path.normpath(theKeepLibPath.parents[-13]))    #keepVersionPathList created here.
+                                print('The RenderImage Path is out of the same shot, skipped.\n')
+                                pass
 
                         else:
-                            print('The RenderImage Path is out of the same shot, skipped.\n')
+                            print('The RenderImage Path is within the same Task, skipped.\n')
                             pass
-
                     else:
-                        print('The RenderImage Path is within the same Task, skipped.\n')
+                        print('theKeepLibPath is missing !!! {}'.format(theKeepLibPath.parents[-13]))
                         pass
-
 
 
 
